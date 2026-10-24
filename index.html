@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cxrl Diamonds | Recargas Free Fire</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #05070b;
+      color: white;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 7%;
+      border-bottom: 1px solid #15364c;
+    }
+
+    .logo {
+      color: #42cfff;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 55px 20px 35px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      margin-bottom: 12px;
+    }
+
+    .hero span { color: #42cfff; }
+
+    .hero p { color: #aab7c5; }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      max-width: 1000px;
+      padding: 20px;
+      margin: auto;
+    }
+
+    .producto {
+      background: #0b111a;
+      border: 1px solid #173b54;
+      border-radius: 15px;
+      padding: 24px;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .producto:hover {
+      border-color: #42cfff;
+      transform: translateY(-3px);
+    }
+
+    .diamante { font-size: 35px; }
+
+    .producto h2 { font-size: 21px; }
+
+    .precio {
+      font-size: 25px;
+      color: #42cfff;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    button, .soporte {
+      display: inline-block;
+      width: 100%;
+      padding: 13px;
+      border: 0;
+      border-radius: 9px;
+      background: #42cfff;
+      color: #041018;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    button:hover, .soporte:hover {
+      background: #8be3ff;
+    }
+
+    .ayuda {
+      max-width: 600px;
+      margin: 35px auto;
+      padding: 25px;
+      text-align: center;
+      background: #0b111a;
+      border: 1px solid #173b54;
+      border-radius: 15px;
+    }
+
+    .ayuda p { color: #aab7c5; line-height: 1.6; }
+
+    .soporte {
+      background: transparent;
+      color: #42cfff;
+      border: 1px solid #42cfff;
+    }
+
+    footer {
+      text-align: center;
+      color: #788797;
+      padding: 25px;
+      border-top: 1px solid #15364c;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">💎 Cxrl Diamonds</div>
+  </header>
+
+  <section class="hero">
+    <h1>Tus diamantes, <span>tu victoria</span></h1>
+    <p>Elige tu paquete y realiza tu pedido de Free Fire.</p>
+  </section>
+
+  <main class="catalogo" id="catalogo"></main>
+
+  <section class="ayuda">
+    <h2>¿Necesitas ayuda?</h2>
+    <p>Para problemas con tu pedido o dudas técnicas,
+       comunícate con nuestro soporte.</p>
+    <a class="soporte" id="botonSoporte"
+       target="_blank" rel="noopener noreferrer">
+      Soporte técnico por WhatsApp
+    </a>
+  </section>
+
+  <footer>
+    © 2026 Cxrl Diamonds · Tienda independiente de recargas.
+    No afiliada oficialmente a Garena.
+  </footer>
+
+  <script>
+    // Número de WhatsApp con código de país, sin el signo +.
+    const WHATSAPP = "573008247516";
+
+    const paquetes = [
+      { diamantes: 100, precio: 3380 },
+      { diamantes: 310, precio: 9870 },
+      { diamantes: 520, precio: 16705 },
+      { diamantes: 1060, precio: 32975 },
+      { diamantes: 2180, precio: 63960 },
+      { diamantes: 5600, precio: 157690 }
+    ];
+
+    const pesos = new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      maximumFractionDigits: 0
+    });
+
+    const catalogo = document.getElementById("catalogo");
+
+    paquetes.forEach(paquete => {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "producto";
+
+      tarjeta.innerHTML = `
+        <div class="diamante">💎</div>
+        <h2>${paquete.diamantes.toLocaleString("es-CO")}
+            diamantes</h2>
+        <div class="precio">${pesos.format(paquete.precio)}</div>
+        <button type="button">Comprar ahora</button>
+      `;
+
+      tarjeta.querySelector("button").addEventListener("click", () => {
+        const id = prompt("Ingresa tu ID de jugador de Free Fire:");
+
+        if (id === null) return;
+
+        const idLimpio = id.trim();
+
+        if (!/^[0-9]{5,20}$/.test(idLimpio)) {
+          alert("Ingresa un ID numérico válido de Free Fire.");
+          return;
+        }
+
+        const mensaje =
+          `Hola, Cxrl Diamonds. Quiero realizar un pedido.\n\n` +
+          `Paquete: ${paquete.diamantes} diamantes\n` +
+          `Precio: ${pesos.format(paquete.precio)}\n` +
+          `ID de Free Fire: ${idLimpio}\n\n` +
+          `Por favor, indícame cómo realizar el pago.`;
+
+        const url = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+
+      catalogo.appendChild(tarjeta);
+    });
+
+    const mensajeSoporte =
+      "Hola, Cxrl Diamonds. Necesito ayuda con soporte técnico.";
+
+    document.getElementById("botonSoporte").href =
+      `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensajeSoporte)}`;
+  </script>
+</body>
+</html>
